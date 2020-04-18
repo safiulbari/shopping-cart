@@ -26,10 +26,10 @@
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
                            <button class="btn btn-default"><i class="fas fa-minus" id="subButton"></i></button>
-                           <input type="text" class="form-control text-center"  id="quantityField" value="1">
+                           <input type="text" class="form-control text-center"  id="quantityField" value="0">
                            <button class="btn btn-default"><i class="fas fa-plus" id="addButton"></i></button>
                         </div>
-                        <h5>$<span id="product1">1219</span></h5>
+                        <h5>$<span id="product1">0</span></h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -44,11 +44,11 @@
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
                            <button class="btn btn-default"><i class="fas fa-minus" id="subButton2"></i></button>
-                           <input type="text" class="form-control text-center" id="quantityField2" value="1">
+                           <input type="text" class="form-control text-center" id="quantityField2" value="0">
                            <button class="btn btn-default"><i class="fas fa-plus" id="addButton2"></i></button>
 
                         </div>
-                        <h5>$<span id="product2">59</span> </h5>
+                        <h5>$<span id="product2">0</span> </h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
@@ -64,9 +64,9 @@
                      </div>
 
                      <div class="col-md-4 status">
-                        <h5 id="updateText1">$<span id="subTotal">1278</span></h5>
+                        <h5 id="updateText1">$<span id="subTotal">0</span></h5>
                         <h5>$0</h5>
-                        <h5 id="updateText1">$<span id="total">1278</span> </h5>
+                        <h5 id="updateText1">$<span id="total">0</span> </h5>
                      </div>
                   </div>
                </div>
@@ -92,6 +92,11 @@
          document.getElementById(id).innerText = value;
       }
 
+      function updateTotal(productNum,amount){
+         updateInInnerText("subTotal",amount);
+         updateInInnerText("total",amount);
+         updateInInnerText(productNum,amount);
+      }
 
 
 
@@ -99,35 +104,65 @@
       const addButton = document.getElementById("addButton");
       addButton.addEventListener("click",function(){
          updateByValue("quantityField",1);
-         updateInInnerText("subTotal",1219);
-         updateInInnerText("total",1219);
-         updateInInnerText("product1",1219);
+         updateTotal("product1",1219);
       })
       
       const addButton2 = document.getElementById("addButton2");
       addButton2.addEventListener("click",function(){
          updateByValue("quantityField2",1);
-         updateInInnerText("subTotal",59);
-         updateInInnerText("total",59);
-         updateInInnerText("product2",59);
+         updateTotal("product2",59);
       })
 
       const subButton = document.getElementById("subButton");
       subButton.addEventListener("click",function(){
          updateByValue("quantityField",-1);
-         updateInInnerText("subTotal",-1219);
-         updateInInnerText("total",-1219);
-         updateInInnerText("product1",-1219);
+         updateTotal("product1",-1219);
       })
 
       const subButton2 = document.getElementById("subButton2");
       subButton2.addEventListener("click",function(){
          updateByValue("quantityField2",-1);
-         updateInInnerText("subTotal",-59);
-         updateInInnerText("total",-59);
-         updateInInnerText("product2",-59);
+         updateTotal("product2",-59);
       })
 
+      function inputUpdate (field,amount,productNum1,productNum2){
+         const newInput = document.getElementById(field).value;
+         const newInputNum = parseFloat(newInput);
+         const pr1 = newInputNum * amount;
+         document.getElementById(productNum1).innerText = pr1;
+         
+         const pr2 = document.getElementById(productNum2).innerText;
+         const pr2Value = parseFloat(pr2);
+         const prValue = parseFloat(pr1) + parseFloat(pr2);
+
+         document.getElementById("subTotal").innerText = prValue;
+         document.getElementById("total").innerText = prValue;
+      }
+
+
+      const quantityField = document.getElementById("quantityField");
+      quantityField.addEventListener("change",function(){
+
+         inputUpdate("quantityField",1219,"product1","product2");
+         /**
+          * const newInput = document.getElementById("quantityField").value;
+         const newInputNum = parseFloat(newInput);
+         const pr1 = newInputNum * 1219
+         document.getElementById("product1").innerText = pr1;
+         
+         const pr2 = document.getElementById("product2").innerText;
+         const pr2Value = parseFloat(pr2);
+         const prValue = parseFloat(pr1) + parseFloat(pr2);
+
+         document.getElementById("subTotal").innerText = prValue;
+         document.getElementById("total").innerText = prValue;
+         */
+      })
+
+      const quantityField2 = document.getElementById("quantityField2");
+      quantityField2.addEventListener("change",function(){
+         inputUpdate("quantityField",59,"product2","product1");
+      })
    </script>
    
 </body>
